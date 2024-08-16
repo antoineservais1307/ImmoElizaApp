@@ -1,94 +1,93 @@
-# 🏠 ImmoEliza Price Predictor
-ImmoEliza Price Predictor is a web application that allows users to predict real estate prices based on various property features. This app is built using Streamlit, a framework that turns Python scripts into shareable web apps in minutes.
+# 🏠 ImmoEliza - Real Estate Price Predictor
+Introduction
+ImmoEliza is a web application designed to predict real estate prices based on various property features. The application leverages machine learning models to provide accurate price estimates for different types of properties across Belgium.
 
-## 🚀 Features
-User-Friendly Interface: Simple and intuitive UI for predicting property prices.
-Fast Predictions: Predict the price of a property with just a few clicks.
-Customizable Inputs: Input various property features such as type, area, number of bedrooms, etc.
-Instant Results: Get the predicted price of the property in real-time.
-## 📋 Prerequisites
-To run this project locally, you will need to have the following installed on your system:
+## The project consists of two main components:
 
-Python 3.7+
-Required Python packages (listed in requirements.txt)
-📦 Installation
-Clone the repository:
+- A FastAPI backend that serves the prediction model.
+- A Streamlit frontend that provides a user interface for inputting property features and displaying the predicted price.
+Features
+- Property Features: Input key features of the property like the type, subtype, living area, number of bedrooms, bathrooms, kitchen type, etc.
+- Real-time Price Prediction: Get instant price predictions based on the provided property features.
+- User-Friendly Interface: Easy-to-use Streamlit interface for interacting with the prediction model.
+## Installation
+### Prerequisites
+Ensure you have the following installed:
 
-bash
-Copier le code
-git clone 
-cd immoeliza-price-predictor
-Install the dependencies:
+- Python 3.7+
+- Pip (Python package installer)
+- Setup
+- Clone the repository:
 
-bash
-Copier le code
+```bash
+git clone https://github.com/antoineservais1307/ImmoElizaApp.git
+```
+Install the required packages:
+
+```bash
 pip install -r requirements.txt
-Download the trained model and encoder files:
+```
+Ensure you have the trained model and encoder files in the project directory:
 
-Ensure you have trained_model.joblib and encoder.joblib in the root directory of the project. These files contain the pre-trained model and the encoder used for predictions.
-🛠️ Usage
-Run the application:
+trained_model.joblib
+encoder.joblib
+Usage
+Running the Application
+Start the FastAPI Server: The FastAPI server will run in a separate thread to handle predictions.
+
+Launch the Streamlit Frontend:
 
 bash
- Copier le code
+Copier le code
 streamlit run app.py
-Open the web app:
+Open your browser and navigate to http://localhost:8501 to access the Streamlit interface.
 
-Once the app is running, it will open in your default web browser. If not, you can manually navigate to http://localhost:8501 in your browser.
-
-Use the interface:
-
-Select the property features from the dropdowns and input fields.
+Predicting a Price
+Fill in the property details using the dropdowns and input boxes.
 Click on the "Predict Price" button to get the estimated price of the property.
-The predicted price will be displayed in the app.
-📝 Application Overview
-Input Fields:
-TypeOfProperty: Choose between House or Appartment.
-SubtypeOfProperty: Select the specific subtype of the property, such as villa, duplex, penthouse, etc.
-TypeOfSale: Choose between residential_sale or residential_monthly_rent.
-LivingArea: Enter the living area in square meters.
-PostalCode: Input the postal code where the property is located.
-BathroomCount: Specify the number of bathrooms.
-BedroomCount: Specify the number of bedrooms.
-Furnished: Indicate whether the property is furnished (Yes/No).
-Fireplace: Indicate whether the property has a fireplace (Yes/No).
-Kitchen: Select the type of kitchen installed.
-PEB: Choose the energy performance certificate (PEB) rating.
-StateOfBuilding: Indicate the condition of the building.
-NumberOfFacades: Input the number of facades.
-Garden: Indicate whether the property has a garden (Yes/No).
-GardenArea: Specify the garden area in square meters.
-SwimmingPool: Indicate whether the property has a swimming pool (Yes/No).
-Terrace: Indicate whether the property has a terrace (Yes/No).
-ConstructionYear: Enter the year the property was constructed.
-District: Select the district where the property is located.
-Output:
-Predicted Price: The estimated price of the property based on the inputs.
-🎨 Screenshots
+The predicted price will be displayed in the interface.
+API Endpoints
+The FastAPI backend exposes the following endpoint:
 
-Description of the screenshot.
+POST /predict: Predicts the price of a property.
 
+Request Body:
 
-Description of the screenshot.
+json
+Copier le code
+{
+    "BathroomCount": int,
+    "BedroomCount": int,
+    "Fireplace": "Yes" | "No",
+    "Furnished": "Yes" | "No",
+    "Garden": "Yes" | "No",
+    "GardenArea": int,
+    "LivingArea": int,
+    "NumberOfFacades": int,
+    "SwimmingPool": "Yes" | "No",
+    "Terrace": "Yes" | "No",
+    "PostalCode": int,
+    "TypeOfProperty": "House" | "Appartment",
+    "Kitchen": "NOT_INSTALLED" | "INSTALLED" | "USA_INSTALLED" | "SEMI_EQUIPPED" | "USA_SEMI_EQUIPPED" | "HYPER_EQUIPPED" | "USA_HYPER_EQUIPPED",
+    "PEB": "A++" | "A+" | "A" | "B" | "C" | "D" | "E" | "F" | "G",
+    "StateOfBuilding": "AS_NEW" | "GOOD" | "TO_BE_DONE_UP" | "TO_RENOVATE" | "JUST_RENOVATED" | "TO_RESTORE",
+    "SubtypeOfProperty": str,
+    "TypeOfSale": "residential_sale" | "residential_monthly_rent",
+    "ConstructionYear": int,
+    "District": str
+}
+Response:
 
-🤝 Contributing
-Contributions are welcome! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+json
+Copier le code
+{
+    "predicted_price": float
+}
+Contributing
+Contributions are welcome! Please open an issue or submit a pull request with your changes.
 
-Fork the Project
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
-Commit your Changes (git commit -m 'Add some AmazingFeature')
-Push to the Branch (git push origin feature/AmazingFeature)
-Open a Pull Request
-📜 License
-Distributed under the MIT License. See LICENSE for more information.
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-📧 Contact
-Your Name
-
-Email: your-email@example.com
-LinkedIn: Your LinkedIn
-Project Link: GitHub Repository
-🌟 Acknowledgements
-Streamlit for providing the easy-to-use web framework.
-Pandas, Scikit-learn, and Joblib for making data processing and model deployment straightforward.
-The creators and maintainers of all the open-source libraries used in this project.
+Acknowledgments
+Special thanks to all contributors and the open-source community for their valuable tools and libraries.
