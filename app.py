@@ -22,7 +22,6 @@ expected_columns = [
 st.title("🏠 ImmoEliza 🏠")
 st.header("💶 Price Predictor 💶")
 st.write("Select the features of the property you want to predict the price of from the box down below")
-st.write("For TypeOfProperty : 1 = House, 2 = Appartment")
 
 # Create input fields for the user
 TypeOfProperty = st.selectbox("TypeOfProperty", ("House", "Appartment"))
