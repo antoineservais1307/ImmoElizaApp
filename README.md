@@ -39,7 +39,12 @@ Once the app is running, you can open your browser and got to
 - http://localhost:8501
 
 ### PS: if you don't want to go trought all these steps you can just go to :
-- https://immoelizaapp-8aptk6uokejkabx6bmb955.streamlit.app/
+- https://immoelizaapp-tvwnjnnzvgjcdzd6hx8ewm.streamlit.app/
+
+## And Voila you can predicte a price
+
+![Alt Text](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXllNnR4MHVhYTUyN2NlZnlrODRkbWFncjdvaWQyaDdxZXRqNTh2NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Od0QRnzwRBYmDU3eEO/giphy.gif)
+
 
 ## 🛠️ Project Structure
 
