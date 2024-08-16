@@ -46,6 +46,10 @@ streamlit run app.py
 ```
 ### Open your browser and navigate to http://localhost:8501 to access the Streamlit interface.
 
+### If you want to use it one your browser you can go to this link 
+- https://immoelizaapp-cngut6yjkea4mx9yvraulw.streamlit.app/
+
+
 ## Predicting a Price
 ### 1. Fill in the property details using the dropdowns and input boxes.
 ### 2. Click on the "Predict Price" button to get the estimated price of the property.
