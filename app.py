@@ -113,6 +113,7 @@ if st.button("Predict Price"):
     res = requests.post(url="http://127.0.0.1:8000/predict", json=inputs)
     if res.status_code == 200:
         predicted_price = res.json().get("predicted_price")
-        st.subheader(f"Predicted Price = {predicted_price} €")
+        rounded_price = round(predicted_price)
+        st.subheader(f"Predicted Price = {rounded_price} €")
     else:
         st.subheader("Error in prediction. Please check the input values.")
