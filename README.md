@@ -22,6 +22,10 @@ Ensure you have the following installed:
 ```bash
 git clone https://github.com/antoineservais1307/ImmoElizaApp.git
 ```
+- go to the folder 
+```bash
+cd ImmoElizaApp
+```
 Install the required packages:
 
 ```bash
@@ -29,32 +33,38 @@ pip install -r requirements.txt
 ```
 Ensure you have the trained model and encoder files in the project directory:
 
-trained_model.joblib
-encoder.joblib
-Usage
-Running the Application
-Start the FastAPI Server: The FastAPI server will run in a separate thread to handle predictions.
+- trained_model.joblib
+- encoder.joblib
+- Usage
+- Running the Application
+- Start the FastAPI Server: The FastAPI server will run in a separate thread to handle predictions.
 
-Launch the Streamlit Frontend:
+### Launch the Streamlit Frontend:
 
-bash
-Copier le code
+```bash
 streamlit run app.py
-Open your browser and navigate to http://localhost:8501 to access the Streamlit interface.
+```
+### Open your browser and navigate to http://localhost:8501 to access the Streamlit interface.
 
-Predicting a Price
-Fill in the property details using the dropdowns and input boxes.
-Click on the "Predict Price" button to get the estimated price of the property.
-The predicted price will be displayed in the interface.
-API Endpoints
-The FastAPI backend exposes the following endpoint:
+## Predicting a Price
+### 1. Fill in the property details using the dropdowns and input boxes.
+### 2. Click on the "Predict Price" button to get the estimated price of the property.
+### 3. The predicted price will be displayed in the interface.
+
+![Alt Text](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnM0bmIxcHd4Z2pmbW41MDcycmhzeXJ5emNneWRtM3JrcjVjaWdtZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HTYUmU67pLWv1a8/giphy.gif)
+
+
+
+
+## API Endpoints
+### The FastAPI backend exposes the following endpoint:
 
 POST /predict: Predicts the price of a property.
 
-Request Body:
+### Request Body:
 
-json
-Copier le code
+```json
+
 {
     "BathroomCount": int,
     "BedroomCount": int,
@@ -76,18 +86,18 @@ Copier le code
     "ConstructionYear": int,
     "District": str
 }
-Response:
+```
+### Response:
 
-json
-Copier le code
+```json
 {
     "predicted_price": float
 }
-Contributing
+```
+### Contributing
 Contributions are welcome! Please open an issue or submit a pull request with your changes.
 
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
 
-Acknowledgments
-Special thanks to all contributors and the open-source community for their valuable tools and libraries.
+
+### Acknowledgments
+Special thanks to the open-source community for their valuable tools and libraries.
