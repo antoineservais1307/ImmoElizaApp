@@ -1,65 +1,22 @@
 import streamlit as st
-import requests
-from fastapi import FastAPI
-from pydantic import BaseModel
 import pandas as pd
 import joblib
-from category_encoders import TargetEncoder
-import uvicorn
-from threading import Thread
 
-# Define the FastAPI app
-app = FastAPI()
-
-class House(BaseModel):
-    BathroomCount: int
-    BedroomCount: int
-    Fireplace: str
-    Furnished: str
-    Garden: str
-    GardenArea: int
-    LivingArea: int
-    NumberOfFacades: int
-    SwimmingPool: str
-    Terrace: str
-    PostalCode: int
-    TypeOfProperty: str
-    Kitchen: str
-    PEB: str
-    StateOfBuilding: str
-    SubtypeOfProperty: str
-    TypeOfSale: str
-    ConstructionYear: int
-    District: str
-
-categoricals_columns = ['TypeOfProperty', 'Kitchen', 'PEB', 'StateOfBuilding', 'SubtypeOfProperty', 'TypeOfSale', 'District','ConstructionYear']
-
+# Load the model and encoder
 model = joblib.load(open("trained_model.joblib", "rb"))
 encoder = joblib.load(open("encoder.joblib", "rb"))
 
-@app.post("/predict")
-def predict_price(house: House):
-    house_data = house.dict()
-    for key, value in house_data.items():
-        if value == "Yes":
-            house_data[key] = 1
-        elif value == "No":
-            house_data[key] = 0
-        elif value == "House":
-            house_data[key] = 1
-        elif value == "Appartment":
-            house_data[key] = 2
+# Define the categorical columns for encoding
+categoricals_columns = ['TypeOfProperty', 'Kitchen', 'PEB', 'StateOfBuilding', 'SubtypeOfProperty', 'TypeOfSale', 'District', 'ConstructionYear']
 
-    house_df = pd.DataFrame([house_data])
-    house_df[categoricals_columns] = encoder.transform(house_df[categoricals_columns])
-    prediction = model.predict(house_df)
-    return {"predicted_price": prediction[0]}
-
-# Run the FastAPI app in a separate thread
-def run_fastapi():
-    uvicorn.run(app, host="127.0.0.1", port=8000)
-
-Thread(target=run_fastapi, daemon=True).start()
+# Define the order of the features as expected by the model
+expected_columns = [
+    "BathroomCount", "BedroomCount", "Fireplace", "Furnished", "Garden", 
+    "GardenArea", "LivingArea", "NumberOfFacades", "SwimmingPool", 
+    "Terrace", "PostalCode", "TypeOfProperty", "Kitchen", "PEB", 
+    "StateOfBuilding", "SubtypeOfProperty", "TypeOfSale", 
+    "ConstructionYear", "District"
+]
 
 # Streamlit application
 st.title("🏠 ImmoEliza 🏠")
@@ -67,6 +24,7 @@ st.header("💶 Price Predictor 💶")
 st.write("Select the features of the property you want to predict the price of from the box down below")
 st.write("For TypeOfProperty : 1 = House, 2 = Appartment")
 
+# Create input fields for the user
 TypeOfProperty = st.selectbox("TypeOfProperty", ("House", "Appartment"))
 SubtypeOfProperty = st.selectbox("SubtypeOfProperty", ("house", "appartment", "villa", "ground_floor", "duplex", "penthouse", "apartment_block", "mixed_use_building", "flat_studio", "service_flat", "mansion", "kot", "town_house", "bungalow", "loft", "coubntry_cottage", "exeptional_property", "farmhouse", "triplex", "chalet", "castle", "manor_house", "pavillon", "other_property"))
 TypeOfSale = st.selectbox("TypeOfSale", ("residential_sale", "residential_monthly_rent"))
@@ -87,33 +45,36 @@ Terrace = st.selectbox("Terrace", ("Yes", "No"))
 ConstructionYear = st.number_input("Construction Year", format="%0f")
 District = st.selectbox("District", ("Brussels", "Antwerp", "Liège", "Brugge", "Gent", "Halle-Vilvoorde", "Turnhout", "Nivelles", "Leuven", "Oostend", "Kortrijk", "Aalst", "Mechelen", "Namur", "Charleroi", "Hasselt", "Veurne", "Sint-Niklaas", "Mons", "Verviers", "Roeselare", "Dendermonde", "Tournai", "Oudenaarde", "Soignies", "Tielt", "Thuin", "Dinant", "Maaseik", "Eeklo", "Tongeren", "Mouscron", "Huy", "Ath", "Diksmuide", "Marche-en-Famenne", "Arlon", "Waremme", "Neufchâteau", "Virton", "Ieper", "Bastogne", "Philippeville"))
 
+# Prepare the inputs for prediction
 inputs = {
-    "TypeOfProperty": TypeOfProperty,
+    "TypeOfProperty": 1 if TypeOfProperty == "House" else 2,
     "SubtypeOfProperty": SubtypeOfProperty,
     "TypeOfSale": TypeOfSale,
     "LivingArea": LivingArea,
     "PostalCode": PostalCode,
     "BathroomCount": BathroomCount,
     "BedroomCount": BedroomCount,
-    "Furnished": Furnished,
-    "Fireplace": Fireplace,
+    "Furnished": 1 if Furnished == "Yes" else 0,
+    "Fireplace": 1 if Fireplace == "Yes" else 0,
     "Kitchen": Kitchen,
     "PEB": PEB,
     "StateOfBuilding": StateOfBuilding,
     "NumberOfFacades": NumberOfFacades,
-    "Garden": Garden,
+    "Garden": 1 if Garden == "Yes" else 0,
     "GardenArea": GardenArea,
-    "SwimmingPool": SwimmingPool,
-    "Terrace": Terrace,
+    "SwimmingPool": 1 if SwimmingPool == "Yes" else 0,
+    "Terrace": 1 if Terrace == "Yes" else 0,
     "ConstructionYear": ConstructionYear,
     "District": District
 }
 
+# Predict button
 if st.button("Predict Price"):
-    res = requests.post(url="http://127.0.0.1:8000/predict", json=inputs)
-    if res.status_code == 200:
-        predicted_price = res.json().get("predicted_price")
-        rounded_price = round(predicted_price)
-        st.subheader(f"Predicted Price = {rounded_price} €")
-    else:
-        st.subheader("Error in prediction. Please check the input values.")
+    # Create a DataFrame and ensure the correct column order
+    house_df = pd.DataFrame([inputs])[expected_columns]
+    house_df[categoricals_columns] = encoder.transform(house_df[categoricals_columns])
+    
+    # Predict and round the price
+    prediction = model.predict(house_df)
+    rounded_price = round(prediction[0])
+    st.subheader(f"Predicted Price = {rounded_price} €")

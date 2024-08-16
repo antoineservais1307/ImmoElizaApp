@@ -1,107 +1,97 @@
-# 🏠 ImmoEliza - Real Estate Price Predictor
-Introduction
-ImmoEliza is a web application designed to predict real estate prices based on various property features. The application leverages machine learning models to provide accurate price estimates for different types of properties across Belgium.
+# 🏠 ImmoEliza - Real Estate Price Predictor 💶
 
-## The project consists of two main components:
+Welcome to **ImmoEliza**, a powerful real estate price prediction tool that helps you estimate the price of a property based on its features. This application is built with **Streamlit** and uses a pre-trained machine learning model to predict property prices in Belgium.
 
-- A FastAPI backend that serves the prediction model.
-- A Streamlit frontend that provides a user interface for inputting property features and displaying the predicted price.
-Features
-- Property Features: Input key features of the property like the type, subtype, living area, number of bedrooms, bathrooms, kitchen type, etc.
-- Real-time Price Prediction: Get instant price predictions based on the provided property features.
-- User-Friendly Interface: Easy-to-use Streamlit interface for interacting with the prediction model.
-## Installation
-### Prerequisites
-Ensure you have the following installed:
+## ✨ Features
 
-- Python 3.7+
-- Pip (Python package installer)
-- Setup
-- Clone the repository:
+- **User-Friendly Interface**: Easy-to-use interface for selecting property features.
+- **Real-Time Price Prediction**: Get instant price predictions based on the selected property features.
+- **Customizable Inputs**: Select from various property features like type, subtype, living area, bathroom count, kitchen type, and more.
+- **Model-Based Prediction**: Powered by a machine learning model trained on a rich dataset, ensuring accurate and reliable predictions.
 
-```bash
-git clone https://github.com/antoineservais1307/ImmoElizaApp.git
+## 🚀 Getting Started
+
+Follow these instructions to set up and run the project on your local machine.
+
+### 1. Clone the Repository
+
+```sh
+git clone https://github.com/yourusername/immoeliza.git
+cd immoeliza
 ```
-- go to the folder 
-```bash
-cd ImmoElizaApp
-```
-Install the required packages:
+### 2. Install Dependencies
 
-```bash
+make sure you have Python installed. Then, install the required packages:
+
+```sh
 pip install -r requirements.txt
 ```
-Ensure you have the trained model and encoder files in the project directory:
 
-- trained_model.joblib
-- encoder.joblib
-- Usage
-- Running the Application
-- Start the FastAPI Server: The FastAPI server will run in a separate thread to handle predictions.
-
-### Launch the Streamlit Frontend:
-
-```bash
+### 3. Run the Application
+```sh
 streamlit run app.py
 ```
-### Open your browser and navigate to http://localhost:8501 to access the Streamlit interface.
 
-### If you want to use it one your browser you can go to this link 
-- https://immoelizaapp-cngut6yjkea4mx9yvraulw.streamlit.app/
+### 4. Interact with the App
 
+Once the app is running, you can open your browser and got to
 
-## Predicting a Price
-### 1. Fill in the property details using the dropdowns and input boxes.
-### 2. Click on the "Predict Price" button to get the estimated price of the property.
-### 3. The predicted price will be displayed in the interface.
+- http://localhost:8501
 
-![Alt Text](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbnM0bmIxcHd4Z2pmbW41MDcycmhzeXJ5emNneWRtM3JrcjVjaWdtZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HTYUmU67pLWv1a8/giphy.gif)
+### PS: if you don't want to go trought all these steps you can just go to :
+- https://immoelizaapp-8aptk6uokejkabx6bmb955.streamlit.app/
 
+## 🛠️ Project Structure
 
+### Here's a brief overview of the project structure:
 
-
-## API Endpoints
-### The FastAPI backend exposes the following endpoint:
-
-POST /predict: Predicts the price of a property.
-
-### Request Body:
-
-```json
-
-{
-    "BathroomCount": int,
-    "BedroomCount": int,
-    "Fireplace": "Yes" | "No",
-    "Furnished": "Yes" | "No",
-    "Garden": "Yes" | "No",
-    "GardenArea": int,
-    "LivingArea": int,
-    "NumberOfFacades": int,
-    "SwimmingPool": "Yes" | "No",
-    "Terrace": "Yes" | "No",
-    "PostalCode": int,
-    "TypeOfProperty": "House" | "Appartment",
-    "Kitchen": "NOT_INSTALLED" | "INSTALLED" | "USA_INSTALLED" | "SEMI_EQUIPPED" | "USA_SEMI_EQUIPPED" | "HYPER_EQUIPPED" | "USA_HYPER_EQUIPPED",
-    "PEB": "A++" | "A+" | "A" | "B" | "C" | "D" | "E" | "F" | "G",
-    "StateOfBuilding": "AS_NEW" | "GOOD" | "TO_BE_DONE_UP" | "TO_RENOVATE" | "JUST_RENOVATED" | "TO_RESTORE",
-    "SubtypeOfProperty": str,
-    "TypeOfSale": "residential_sale" | "residential_monthly_rent",
-    "ConstructionYear": int,
-    "District": str
-}
 ```
-### Response:
-
-```json
-{
-    "predicted_price": float
-}
+immoeliza/
+│
+├── app.py               # Main Streamlit application
+├── trained_model.joblib # Pre-trained machine learning model
+├── encoder.joblib       # Target Encoder for categorical features
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
 ```
-### Contributing
-Contributions are welcome! Please open an issue or submit a pull request with your changes.
 
+#### app.py :
+- This is the main file that runs the Streamlit app. It contains the logic for taking user inputs, transforming them, and feeding them into the trained model to predict the property price.
+#### trained_model.joblib : 
+- This file contains the pre-trained machine learning model used for making predictions.
 
+#### encoder.joblib
+- This file contains the target encoder used to transform categorical features into a format suitable for the model.
 
-### Acknowledgments
-Special thanks to the open-source community for their valuable tools and libraries.
+#### requirements.txt
+- This file lists all the Python dependencies required to run the app. These can be installed using pip install -r requirements.txt.
+
+## 📊 Input Features
+Here are the input features you can customize in the app:
+
+* Type of Property: House or Appartment
+* Subtype of Property: Various subtypes such as villa, duplex, loft, etc.
+* Type of Sale: Residential sale or residential monthly rent
+* Living Area: The total living area in square meters
+* Postal Code: The postal code of the property's location
+* Bathroom Count: Number of bathrooms in the property
+* Bedroom Count: Number of bedrooms in the property
+* Furnished: Whether the property is furnished or not
+* Fireplace: Presence of a fireplace
+* Kitchen Type: The type of kitchen installed
+* PEB: The energy efficiency rating (A++ to G)
+* State of Building: Condition of the building (e.g., AS_NEW, GOOD, TO_RENOVATE)
+* Number of Facades: The number of facades
+* Garden: Presence of a garden
+* Garden Area: The area of the garden in square meters
+* Swimming Pool: Presence of a swimming pool
+* Terrace: Presence of a terrace
+* Construction Year: The year the property was constructed
+* District: The district where the property is located
+## 👨‍💻 Contributors
+Antoine Servais,
+antoineservais1307 on github
+
+## 🌟 Acknowledgments
+Thanks to the creators of Streamlit for their awesome library.
+Special thanks to the data science community for inspiration and support
